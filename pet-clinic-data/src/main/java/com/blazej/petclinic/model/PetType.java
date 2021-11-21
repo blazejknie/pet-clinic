@@ -1,6 +1,6 @@
 package com.blazej.petclinic.model;
 
-public class PetType {
+public class PetType extends BaseEntity {
     private String name;
 
     public PetType(String name) {
