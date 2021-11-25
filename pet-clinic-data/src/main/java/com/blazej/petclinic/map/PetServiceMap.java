@@ -2,10 +2,11 @@ package com.blazej.petclinic.map;
 
 import com.blazej.petclinic.model.Pet;
 import com.blazej.petclinic.services.CrudService;
+import com.blazej.petclinic.services.PetService;
 
 import java.util.Set;
 
-public class PetServiceMap extends AbstractMapService<Pet, Long> implements CrudService<Pet, Long> {
+public class PetServiceMap extends AbstractMapService<Pet, Long> implements PetService {
 
     @Override
     public Set<Pet> findAll() {
