@@ -1,11 +1,12 @@
 package com.blazej.petclinic.map;
 
 import com.blazej.petclinic.model.Pet;
-import com.blazej.petclinic.services.CrudService;
 import com.blazej.petclinic.services.PetService;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+@Service
 public class PetServiceMap extends AbstractMapService<Pet, Long> implements PetService {
 
     @Override

@@ -1,11 +1,11 @@
 package com.blazej.petclinic.map;
 
 import com.blazej.petclinic.model.Owner;
-import com.blazej.petclinic.services.CrudService;
 import com.blazej.petclinic.services.OwnerService;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
-
+@Service
 public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements OwnerService {
     @Override
     public Set<Owner> findAll() {
