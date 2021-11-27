@@ -1,4 +1,4 @@
-package com.blazej.petclinic.map;
+package com.blazej.petclinic.services.map;
 
 import com.blazej.petclinic.model.Vet;
 import com.blazej.petclinic.services.VetService;
