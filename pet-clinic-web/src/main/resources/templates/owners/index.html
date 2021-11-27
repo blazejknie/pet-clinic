@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
 <head>
     <meta charset="UTF-8">
     <title>List of Pet Owners</title>
@@ -7,12 +7,12 @@
 <body>
 <h1 th:text="'List Of Owners'">Owners List</h1>
 <!--/*@thymesVar id="owner" type="com.blazej.petclinic.model.Owner"*/-->
-<table>
+<table id="owners" class="table table-striped">
     <thead>
     <tr>
-        <td>Id</td>
-        <td>First Name</td>
-        <td>Last Name</td>
+        <td style="width: 150px;">Id</td>
+        <td style="width: 150px;">First Name</td>
+        <td style="width: 150px;">Last Name</td>
     </tr>
     </thead>
     <tbody>
