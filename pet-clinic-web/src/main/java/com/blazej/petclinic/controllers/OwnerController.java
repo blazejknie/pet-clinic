@@ -1,5 +1,6 @@
 package com.blazej.petclinic.controllers;
 
+import com.blazej.petclinic.services.OwnerService;
 import com.blazej.petclinic.services.map.OwnerServiceMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,15 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class OwnerController {
 
-    private final OwnerServiceMap ownerServiceMap;
+    private final OwnerService ownerService;
 
-    public OwnerController(OwnerServiceMap ownerServiceMap) {
-        this.ownerServiceMap = ownerServiceMap;
+    public OwnerController(OwnerService ownerService) {
+        this.ownerService = ownerService;
     }
 
     @RequestMapping({"", "/", "index", "index.html"})
     public String listOwners(Model model) {
-        model.addAttribute("owners", ownerServiceMap.findAll());
+        model.addAttribute("owners", ownerService.findAll());
         return "owners/index";
     }
     @RequestMapping("/find")
