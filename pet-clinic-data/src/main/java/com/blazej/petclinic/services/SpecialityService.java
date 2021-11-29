@@ -1,6 +1,6 @@
 package com.blazej.petclinic.services;
 
-import com.blazej.petclinic.model.Speciality;
+import com.blazej.petclinic.model.Specialty;
 
-public interface SpecialityService extends CrudService<Speciality, Long> {
+public interface SpecialityService extends CrudService<Specialty, Long> {
 }

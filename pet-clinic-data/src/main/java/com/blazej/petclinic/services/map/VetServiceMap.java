@@ -1,6 +1,6 @@
 package com.blazej.petclinic.services.map;
 
-import com.blazej.petclinic.model.Speciality;
+import com.blazej.petclinic.model.Specialty;
 import com.blazej.petclinic.model.Vet;
 import com.blazej.petclinic.services.SpecialityService;
 import com.blazej.petclinic.services.VetService;
@@ -36,8 +36,8 @@ public class VetServiceMap extends AbstractMapService<Vet, Long> implements VetS
         vet.getSpecialities().forEach(speciality -> {
             if (speciality != null) {
                 if (speciality.getId() == null) {
-                    Speciality savedSpeciality = specialityService.save(speciality);
-                    speciality.setId(savedSpeciality.getId());
+                    Specialty savedSpecialty = specialityService.save(speciality);
+                    speciality.setId(savedSpecialty.getId());
                 }
             }
         });
