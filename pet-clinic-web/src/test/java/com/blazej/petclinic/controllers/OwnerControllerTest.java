@@ -15,8 +15,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -91,4 +90,51 @@ class OwnerControllerTest {
 
         verify(ownerService).findById(anyLong());
     }
+
+    @Test
+    void testInitCreateOwnerForm() throws Exception {
+        mockMvc.perform(get("/owners/new"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owners/createOrUpdateOwnerForm"))
+                .andExpect(model().attributeExists("owner"));
+
+        verifyNoInteractions(ownerService);
+    }
+
+    @Test
+    void testProcessCreateOwnerForm() throws Exception {
+        when(ownerService.save(any())).thenReturn(Owner.builder().id(1L).build());
+
+        mockMvc.perform(post("/owners/new"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(model().attributeExists("owner"))
+                .andExpect(view().name("redirect:/owners/1"));
+
+        verify(ownerService).save(any());
+    }
+
+    @Test
+    void testInitUpdateOwnerForm() throws Exception {
+        when(ownerService.findById(anyLong())).thenReturn(Owner.builder().id(1L).build());
+
+        mockMvc.perform(get("/owners/1/edit"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owners/createOrUpdateOwnerForm"))
+                .andExpect(model().attributeExists("owner"));
+    }
+
+    @Test
+    void testProcessUpdateOwnerForm() throws Exception {
+        when(ownerService.save(any())).thenReturn(Owner.builder().id(1L).build());
+
+        mockMvc.perform(post("/owners/1/edit"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/owners/1"))
+                .andExpect(model().attributeExists("owner"));
+
+        verify(ownerService).save(any());
+
+    }
+
+
 }
