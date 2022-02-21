@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 @Getter
@@ -36,5 +37,34 @@ public class Owner extends Person {
     public void addPet(Pet pet) {
         pet.setOwner(this);
         pets.add(pet);
+    }
+
+    /**
+     * @return the Pet with the given name, or null if none found for this Owner
+     *
+     * @param petName to test
+     * */
+    public Pet getPet(String petName) {
+        return getPet(petName, false);
+    }
+
+    /**
+     * @return the Pet with the given name, or null if none found for this Owner
+     *
+     * @param petName to test
+     * @param ignoreNew specify if new Pets should be ignored for searching
+     *
+    * */
+    public Pet getPet(String petName, boolean ignoreNew) {
+        String name = petName.toLowerCase();
+        for (Pet pet : pets) {
+            if (!ignoreNew || !pet.isNew()) {
+                String compName = pet.getName().toLowerCase();
+                if (compName.equals(name)) {
+                    return pet;
+                }
+            }
+        }
+        return null;
     }
 }
