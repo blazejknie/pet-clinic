@@ -1,11 +1,16 @@
 package com.blazej.petclinic.controllers;
 
 import com.blazej.petclinic.model.Owner;
+import com.blazej.petclinic.model.Pet;
 import com.blazej.petclinic.model.PetType;
 import com.blazej.petclinic.services.OwnerService;
 import com.blazej.petclinic.services.PetService;
 import com.blazej.petclinic.services.PetTypeService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +19,7 @@ import java.util.Collection;
 @RequestMapping("/owners/{ownerId}")
 public class PetController {
 
-    private static final String VIEW_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
+    private static final String VIEW_PET_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
 
     private final PetService petService;
     private final OwnerService ownerService;
@@ -39,5 +44,45 @@ public class PetController {
     @InitBinder("owner")
     public void initOwnerBinder(WebDataBinder dataBinder) {
         dataBinder.setDisallowedFields("id");
+    }
+
+    @GetMapping("/pets/new")
+    public String initCreationForm(Owner owner, Model model) {
+        Pet pet = new Pet();
+        owner.getPets().add(pet);
+        model.addAttribute("pet", pet);
+        return VIEW_PET_CREATE_OR_UPDATE_FORM;
+    }
+
+    @PostMapping("/pets/new")
+    public String processCreationForm(Owner owner, @Validated Pet pet, BindingResult result, Model model) {
+        if (StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null) {
+            result.rejectValue("name", "duplicate", "already exists");
+        }
+        owner.getPets().add(pet);
+        if (result.hasErrors()) {
+            model.addAttribute("pet", pet);
+            return VIEW_PET_CREATE_OR_UPDATE_FORM;
+        }
+        petService.save(pet);
+        return "redirect:/owners/" + owner.getId();
+    }
+
+    @GetMapping("/pets/{petId}/edit")
+    public String initUpdateForm(@PathVariable Long petId, Model model) {
+        model.addAttribute("pet", petService.findById(petId));
+        return VIEW_PET_CREATE_OR_UPDATE_FORM;
+    }
+
+    @PostMapping("/pets/{petId}/edit")
+    public String processUpdateForm(@Validated Pet pet, Owner owner, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            pet.setOwner(owner);
+            model.addAttribute("pet", pet);
+            return VIEW_PET_CREATE_OR_UPDATE_FORM;
+        }
+        pet.setOwner(owner);
+        petService.save(pet);
+        return "redirect:/owners/" + owner.getId();
     }
 }
