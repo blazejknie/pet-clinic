@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import java.beans.Transient;
 import java.io.Serializable;
 
 @Getter
@@ -18,6 +19,7 @@ public class BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+//    @Transient
     public boolean isNew() {
         return this.id == null;
     }
