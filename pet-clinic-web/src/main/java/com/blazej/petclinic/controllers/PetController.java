@@ -15,6 +15,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+
 @Controller
 @RequestMapping("/owners/{ownerId}")
 public class PetController {
@@ -63,7 +64,9 @@ public class PetController {
             model.addAttribute("pet", pet);
             return VIEW_PET_CREATE_OR_UPDATE_FORM;
         }
+        pet.setOwner(owner);
         petService.save(pet);
+
         return "redirect:/owners/" + owner.getId();
     }
 
