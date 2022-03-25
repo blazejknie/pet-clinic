@@ -1,6 +1,5 @@
 package com.blazej.petclinic.model;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
