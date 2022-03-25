@@ -56,16 +56,33 @@ class OwnerControllerTest {
         verifyNoInteractions(ownerService);
     }
 
+
     @Test
     void testProcessFindFormReturnMany() throws Exception {
 
-        when(ownerService.findAllByLastNameLike(anyString())).thenReturn(Arrays.asList(Owner.builder().id(1L).build(),
-                Owner.builder().id(2L).build()));
+        when(ownerService.findAllByLastNameLike(anyString()))
+                .thenReturn(Arrays.asList(
+                        Owner.builder().id(1L).build(),
+                        Owner.builder().id(2L).build()));
 
         mockMvc.perform(get("/owners"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("owners/ownersList"))
-                .andExpect(model().attribute("selections",hasSize(2)));
+                .andExpect(model().attribute("selections", hasSize(2)));
+    }
+
+    @Test
+    void testProcessFindFormWithEmptyStringReturnAllOwners() throws Exception {
+        when(ownerService.findAllByLastNameLike(anyString()))
+                .thenReturn(Arrays.asList(
+                        Owner.builder().id(1L).build(),
+                        Owner.builder().id(2L).build()));
+
+        mockMvc.perform(get("/owners")
+                        .param("lastname", ""))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owners/ownersList"))
+                .andExpect(model().attribute("selections", hasSize(2)));
     }
 
     @Test
